@@ -1,0 +1,23 @@
+name: Netease Auto Bot
+on:
+  schedule:
+    - cron: '0 2 * * *' # 北京时间 10:00 (UTC 2:00)
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run script
+        env:
+          NETEASE_USER_ID: ${{ secrets.NETEASE_USER_ID }}
+          NETEASE_COOKIE: ${{ secrets.NETEASE_COOKIE }}
+        run: python main.py
